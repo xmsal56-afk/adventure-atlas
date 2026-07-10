@@ -19,6 +19,7 @@ export default function DestinationCard({
   departureAirport = "NYC",
   onAddToItinerary,
 }) {
+  if (!destination) return null;
   const { id, name, shortDescription, image, rating, region, famousFor, exchangeRate, budget, vibes, flightTimes, bestTime } = destination;
   const flightHours = flightTimes?.[departureAirport];
 

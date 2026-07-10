@@ -164,7 +164,7 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         <MapView destinations={sorted} />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {sorted.map((dest) => (
+          {sorted.filter(Boolean).map((dest) => (
             <DestinationCard
               key={dest.id}
               destination={dest}
