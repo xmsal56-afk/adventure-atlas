@@ -4,11 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wanderlust — Travel Destinations</title>
-    <meta name="description" content="Discover amazing travel destinations around the world. Browse, search, and save your favorites." />
+    <title>Adventure Atlas — Explore the World</title>
+    <meta name="description" content="Discover, compare, and plan your next adventure across 85 destinations worldwide." />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.onerror = function(msg, url, line, col, err) {
+        var d = document.createElement('div');
+        d.style.cssText = 'position:fixed;top:0;left:0;right:0;padding:20px;background:#ef4444;color:white;font-family:monospace;font-size:14px;z-index:99999;white-space:pre-wrap;word-break:break-all';
+        d.textContent = '❌ ' + (err && err.stack ? err.stack : msg + ' at ' + url + ':' + line);
+        document.body.prepend(d);
+      };
+    </script>
   </body>
 </html>
