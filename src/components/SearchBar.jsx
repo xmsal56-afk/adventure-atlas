@@ -3,7 +3,7 @@ import { parseBestTimeRanges } from "../utils/bestTime";
 
 const regions = [
   "All", "Europe", "Asia", "North America", "South America",
-  "Africa", "Oceania", "Middle East", "Caribbean",
+  "Africa", "Oceania", "Middle East", "Caribbean", "Central America",
 ];
 
 const budgetTiers = [
