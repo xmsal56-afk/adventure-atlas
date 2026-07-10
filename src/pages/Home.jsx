@@ -115,20 +115,20 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
             </h2>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
-            {recentDestinations.map((d) => (
-              <Link key={d.id} to={`/destination/${d.id}`}
+            {recentDestinations.map((d, idx) => (
+              d ? <Link key={d.id || idx} to={`/destination/${d.id}`}
                 className="flex-shrink-0 w-44 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all no-underline">
                 <div className="h-20 overflow-hidden">
                   <SafeImage src={d.image} alt={d.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                 </div>
                 <div className="p-2.5">
-                  <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{d.name}</p>
+                  <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{d?.name}</p>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="text-[10px] text-gray-400">{d.region}</span>
-                    <span className="text-[10px] font-bold text-accent">★ {d.rating}</span>
+                    <span className="text-[10px] text-gray-400">{d?.region}</span>
+                    <span className="text-[10px] font-bold text-accent">★ {d?.rating}</span>
                   </div>
                 </div>
-              </Link>
+              </Link> : null
             ))}
           </div>
         </div>

@@ -2,13 +2,21 @@ import { useState, useEffect } from "react";
 
 export default function useBookmarks() {
   const [bookmarks, setBookmarks] = useState(() => {
-    const saved = localStorage.getItem("travel-bookmarks");
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem("travel-bookmarks");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
   });
 
   const [notes, setNotes] = useState(() => {
-    const saved = localStorage.getItem("travel-notes");
-    return saved ? JSON.parse(saved) : {};
+    try {
+      const saved = localStorage.getItem("travel-notes");
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
   });
 
   useEffect(() => {
