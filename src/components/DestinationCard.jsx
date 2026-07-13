@@ -20,7 +20,7 @@ export default function DestinationCard({
   onAddToItinerary,
 }) {
   if (!destination) return null;
-  const { id, name, shortDescription, image, rating, region, famousFor, exchangeRate, budget, vibes, flightTimes, bestTime, mustEat } = destination;
+  const { id, name, shortDescription, image, rating, region, famousFor, exchangeRate, budget, vibes, flightTimes, bestTime, mustEat, familiarChains } = destination;
   const flightHours = flightTimes?.[departureAirport];
 
   return (
@@ -107,6 +107,15 @@ export default function DestinationCard({
             <span className="text-[10px] font-semibold text-orange-500 uppercase tracking-wide mr-0.5">Eat:</span>
             {mustEat.slice(0, 2).map((item) => (
               <span key={item} className="bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-300 text-[10px] px-2 py-0.5 rounded-full font-medium">{item}</span>
+            ))}
+          </div>
+        )}
+
+        {familiarChains && familiarChains.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-2">
+            <span className="text-[10px] font-semibold text-yellow-600 uppercase tracking-wide mr-0.5">🍟 Familiar:</span>
+            {familiarChains.slice(0, 3).map((item) => (
+              <span key={item} className="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 text-[10px] px-2 py-0.5 rounded-full font-medium">{item}</span>
             ))}
           </div>
         )}

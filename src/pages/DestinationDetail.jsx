@@ -52,7 +52,7 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
   const {
     name, description, image, rating, region, country,
     bestTime, currency, language, famousFor, exchangeRate, budget, vibes,
- flightTimes, visaInfo, mustEat, topAttractions, localPhrases, gettingAround,
+ flightTimes, visaInfo, mustEat, topAttractions, localPhrases, gettingAround, familiarChains,
  } = destination;
 
   const flightHours = flightTimes?.[departureAirport];
@@ -220,6 +220,18 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
               ))}
             </div>
           </div>
+
+          {familiarChains && familiarChains.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">🍟 Familiar Eats</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">Know you can find these familiar chains if you need a taste of home</p>
+              <div className="flex flex-wrap gap-2">
+                {familiarChains.map((item) => (
+                  <span key={item} className="bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 font-medium px-4 py-2 rounded-full text-sm border border-yellow-200 dark:border-yellow-800/50">{item}</span>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Insider Info — mustEat, topAttractions, gettingAround */}
           <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
