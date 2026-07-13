@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import destinations from "../data/destinations";
 import SafeImage from "../components/SafeImage";
 
@@ -12,6 +12,27 @@ export default function Itinerary({ stops, addStop, removeStop, updateDays, move
     try { return Number(localStorage.getItem(GOAL_KEY)) || 0; } catch { return 0; }
   });
   const [copied, setCopied] = useState(false);
+  const [imported, setImported] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  // Import shared trip from URL
+  useEffect(() => {
+    if (imported) return;
+    const importData = searchParams.get("import");
+    if (!importData) return;
+    try {
+      const parsed = JSON.parse(atob(importData));
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        // Clear existing stops first, then add shared ones
+        clearItinerary();
+        setTimeout(() => {
+          parsed.forEach((s) => addStop(s.destId, s.days || 1));
+          setImported(true);
+          window.history.replaceState({}, "", "/itinerary");
+        }, 50);
+      }
+    } catch {}
+  }, [searchParams, addStop, clearItinerary, imported]);
 
   const stopDestinations = stops
     .map((s) => ({ ...s, dest: destinations.find((d) => d.id === s.destId) }))
@@ -51,6 +72,16 @@ export default function Itinerary({ stops, addStop, removeStop, updateDays, move
         </div>
       </div>
 
+      {imported && (
+        <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700/50 rounded-2xl p-4 flex items-start gap-3">
+          <span className="text-xl">📥</span>
+          <div>
+            <h3 className="font-bold text-green-800 dark:text-green-300 text-sm">Shared trip imported!</h3>
+            <p className="text-xs text-green-700 dark:text-green-400 mt-0.5">A friend's trip has been loaded into your planner. Adjust days and customize as you like.</p>
+          </div>
+        </div>
+      )}
+
       {stops.length === 0 ? (
         <div className="text-center py-20">
           <span className="text-6xl">🗺️</span>
@@ -70,6 +101,12 @@ export default function Itinerary({ stops, addStop, removeStop, updateDays, move
               const d = stop.dest;
               const costMin = (d.budget?.min || 0) * stop.days;
               const costMax = (d.budget?.max || 0) * stop.days;
+              // Next stop for routing
+              const nextStop = stopDestinations[idx + 1];
+              const nextDest = nextStop?.dest;
+              const flightBetween = nextDest && d.flightTimes && nextDest.flightTimes
+                ? d.flightTimes[Object.keys(d.flightTimes).find(k => Math.abs(d.lng - nextDest.lng) < 40)] || nextDest.flightTimes[Object.keys(nextDest.flightTimes).find(k => Math.abs(d.lng - nextDest.lng) < 40)]
+                : null;
 
               return (
                 <div key={d.id} className="relative flex items-start gap-4 group">
@@ -149,13 +186,32 @@ export default function Itinerary({ stops, addStop, removeStop, updateDays, move
                       <button onClick={() => removeStop(d.id)}
                         className="text-xs text-red-400 hover:text-red-600 font-medium transition-colors cursor-pointer bg-transparent border-0">
                         Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                        </button>
+                        </div>
+                        </div>
+
+                        {/* Flight connection to next stop */}
+                        {nextDest && (
+                        <div className="flex items-center gap-3 pl-0 sm:pl-16 pb-2 pt-1">
+                        <div className="hidden sm:flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 flex-shrink-0">
+                        <span className="text-xs">✈️</span>
+                        </div>
+                        <div className="flex-1 flex items-center gap-2 px-3 py-1.5 bg-gray-50 dark:bg-gray-800/50 rounded-full">
+                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate">{d.name.split(",")[0]}</span>
+                        <span className="text-gray-400 text-xs">→</span>
+                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate">{nextDest.name.split(",")[0]}</span>
+                        {d.lat && nextDest.lat && (
+                          <span className="text-[10px] text-gray-400 ml-auto whitespace-nowrap">
+                            ~{Math.round(Math.sqrt(Math.pow((nextDest.lat - d.lat) * 69, 2) + Math.pow((nextDest.lng - d.lng) * 52, 2)))} mi
+                          </span>
+                        )}
+                        </div>
+                        </div>
+                        )}
+                        </div>
+                        );
+                        })}
+                        </div>
 
           {/* Summary card */}
           <div className="mt-6 bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-5 border border-primary/20 dark:border-primary/30">
