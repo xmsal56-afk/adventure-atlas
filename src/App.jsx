@@ -14,6 +14,7 @@ const DestinationDetail = lazy(() => import("./pages/DestinationDetail"));
 const Itinerary = lazy(() => import("./pages/Itinerary"));
 const CostIndex = lazy(() => import("./pages/CostIndex"));
 const SharedTrip = lazy(() => import("./pages/SharedTrip"));
+const PriceTracker = lazy(() => import("./pages/PriceTracker"));
 
 const AIRPORT_KEY = "travel-departure";
 
@@ -122,6 +123,10 @@ export default function App() {
             <Route
               path="/share/:data"
               element={<SharedTrip />}
+            />
+            <Route
+              path="/price-tracker"
+              element={<PriceTracker />}
             />
           </Routes>
           </Suspense>
