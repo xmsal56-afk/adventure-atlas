@@ -41,8 +41,8 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
   const {
     name, description, image, rating, region, country,
     bestTime, currency, language, famousFor, exchangeRate, budget, vibes,
-    flightTimes, visaInfo,
-  } = destination;
+ flightTimes, visaInfo, mustEat, topAttractions, localPhrases, gettingAround,
+ } = destination;
 
   const flightHours = flightTimes?.[departureAirport];
   const code = extractCode(currency);
@@ -200,6 +200,62 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
               ))}
             </div>
           </div>
+
+          {/* Insider Info — mustEat, topAttractions, gettingAround */}
+          <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {mustEat && mustEat.length > 0 && (
+              <div className="bg-orange-50 dark:bg-orange-900/20 rounded-2xl p-5 border border-orange-200 dark:border-orange-700/50">
+                <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-3">🍜 Must-Eat Foods</h3>
+                <div className="flex flex-wrap gap-2">
+                  {mustEat.map((item) => (
+                    <span key={item} className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium px-3 py-1.5 rounded-full text-xs shadow-sm">{item}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {topAttractions && topAttractions.length > 0 && (
+              <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl p-5 border border-indigo-200 dark:border-indigo-700/50">
+                <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-3">📍 Top Attractions</h3>
+                <ol className="space-y-1.5">
+                  {topAttractions.map((item, i) => (
+                    <li key={item} className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                      <span className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-800 text-indigo-600 dark:text-indigo-300 text-xs font-bold flex items-center justify-center flex-shrink-0">{i + 1}</span>
+                      {item}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+          </div>
+
+          {gettingAround && (
+            <div className="mb-8 bg-teal-50 dark:bg-teal-900/20 rounded-2xl p-5 border border-teal-200 dark:border-teal-700/50">
+              <div className="flex items-start gap-3">
+                <span className="text-xl">🚕</span>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-1">Getting Around</h3>
+                  <p className="text-sm text-gray-700 dark:text-gray-300">{gettingAround}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {localPhrases && localPhrases.length > 0 && (
+            <div className="mb-8 bg-rose-50 dark:bg-rose-900/20 rounded-2xl p-5 border border-rose-200 dark:border-rose-700/50">
+              <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-3">💬 Useful Phrases</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                {localPhrases.map((phrase) => {
+                  const [en, local] = phrase.split(" — ");
+                  return (
+                    <div key={phrase} className="bg-white dark:bg-gray-800 rounded-xl px-3 py-2 text-center shadow-sm">
+                      <p className="text-xs text-gray-400">{en}</p>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">{local}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Seasonal Banner */}
           {isInBestTime(bestTime) && (
