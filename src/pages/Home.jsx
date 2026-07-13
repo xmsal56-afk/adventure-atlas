@@ -7,6 +7,7 @@ import MapView from "../components/MapView";
 import CompareView from "../components/CompareView";
 import SafeImage from "../components/SafeImage";
 import { isInBestTime } from "../utils/bestTime";
+import { useAuth } from "../contexts/AuthContext";
 
 const vibeEmoji = {
   beach: "🏖️", adventure: "🏔️", romance: "💑", culture: "🏛️",
@@ -17,6 +18,7 @@ const vibeEmoji = {
 import DestinationQuiz from "../components/DestinationQuiz";
 
 export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recentIds, departureAirport = "NYC", onAddToItinerary }) {
+  const { user, setShowAuth } = useAuth();
   const navigate = useNavigate();
   const [filtered, setFiltered] = useState(destinations);
   const [sortBy, setSortBy] = useState("default");
@@ -115,6 +117,7 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
       {/* Account prompt */}
       {(() => {
         try { if (localStorage.getItem("travel-account-dismissed")) return null; } catch {}
+        if (user) return null;
         return (
           <div className="mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
             <button onClick={() => { try { localStorage.setItem("travel-account-dismissed", "true"); window.location.reload(); } catch {} }}
@@ -122,11 +125,11 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
             <div className="flex items-start gap-4">
               <span className="text-3xl flex-shrink-0">🔐</span>
               <div>
-                <h3 className="font-bold text-lg">Create an account — coming soon</h3>
-                <p className="text-sm text-white/80 mt-1 max-w-lg">Save your bookmarks, itineraries, and notes across devices. Never lose your trip plans again.</p>
-                <button disabled
-                  className="mt-3 px-5 py-2 rounded-xl bg-white/20 text-white font-semibold text-sm hover:bg-white/30 transition-colors cursor-not-allowed border-0 opacity-70">
-                  🚧 In Development
+                <h3 className="font-bold text-lg">Create a free account</h3>
+                <p className="text-sm text-white/80 mt-1 max-w-lg">Save your bookmarks, itineraries, and notes to the cloud. Sign in on any device and everything restores automatically.</p>
+                <button onClick={() => { try { localStorage.setItem("travel-account-dismissed", "true"); setShowAuth(true); window.location.reload(); } catch {} }}
+                  className="mt-3 px-5 py-2 rounded-xl bg-white text-indigo-600 font-semibold text-sm hover:bg-white/90 transition-colors cursor-pointer border-0">
+                  Sign Up Free
                 </button>
               </div>
             </div>
