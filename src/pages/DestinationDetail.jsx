@@ -233,6 +233,30 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
             </div>
           )}
 
+          {/* Booking Affiliate Links */}
+          <div className="mb-8 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10 rounded-2xl p-5 border border-blue-200 dark:border-blue-800/30">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1">✈️ Book Your Trip</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Find flights, hotels, and tours for {name.split(",")[0]}</p>
+            <div className="flex flex-wrap gap-3">
+              <a href={`https://www.skyscanner.net/transport/flights/to/${encodeURIComponent(name.split(",")[0].trim())}/`}
+                target="_blank" rel="noopener noreferrer"
+                className="flex-1 min-w-[130px] px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white font-semibold text-sm hover:border-primary hover:text-primary transition-all no-underline text-center shadow-sm">
+                ✈️ Find Flights
+              </a>
+              <a href={`https://www.booking.com/searchresults.html?ss=${encodeURIComponent(name.split(",")[0].trim())}`}
+                target="_blank" rel="noopener noreferrer"
+                className="flex-1 min-w-[130px] px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white font-semibold text-sm hover:border-primary hover:text-primary transition-all no-underline text-center shadow-sm">
+                🏨 Book Hotels
+              </a>
+              <a href={`https://www.viator.com/searchResults/all?text=${encodeURIComponent(name.split(",")[0].trim())}&destType=0`}
+                target="_blank" rel="noopener noreferrer"
+                className="flex-1 min-w-[130px] px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white font-semibold text-sm hover:border-primary hover:text-primary transition-all no-underline text-center shadow-sm">
+                🎯 Book Tours
+              </a>
+            </div>
+            <p className="text-[10px] text-gray-400 mt-3 text-center">We may earn a commission if you book through these links at no extra cost to you.</p>
+          </div>
+
           {/* Insider Info — mustEat, topAttractions, gettingAround */}
           <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {mustEat && mustEat.length > 0 && (
