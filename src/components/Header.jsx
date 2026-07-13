@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import destinations from "../data/destinations";
+import LoginButton from "./LoginButton";
 
 const airports = {
   NYC: { label: "New York (JFK)", region: "US Northeast" },
@@ -143,6 +144,7 @@ export default function Header({ bookmarkCount, itineraryCount, darkMode, onTogg
                 title={darkMode ? "Light mode" : "Dark mode"}>
                 {darkMode ? "☀️" : "🌙"}
               </button>
+              <LoginButton />
             </nav>
           </div>
         </div>

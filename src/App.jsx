@@ -1,10 +1,12 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 import useBookmarks from "./hooks/useBookmarks";
 import useRecentlyViewed from "./hooks/useRecentlyViewed";
 import useItinerary from "./hooks/useItinerary";
 import Header from "./components/Header";
 import ScrollToTop from "./components/ScrollToTop";
+import AuthModal from "./components/AuthModal";
 import Home from "./pages/Home";
 
 const Bookmarks = lazy(() => import("./pages/Bookmarks"));
@@ -46,6 +48,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <AuthProvider>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
         <ScrollToTop />
         <Header
@@ -123,7 +126,9 @@ export default function App() {
           </Routes>
           </Suspense>
         </main>
+        <AuthModal />
       </div>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
