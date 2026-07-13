@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useBookmarks from "./hooks/useBookmarks";
 import useRecentlyViewed from "./hooks/useRecentlyViewed";
@@ -6,10 +6,11 @@ import useItinerary from "./hooks/useItinerary";
 import Header from "./components/Header";
 import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
-import Bookmarks from "./pages/Bookmarks";
-import DestinationDetail from "./pages/DestinationDetail";
-import Itinerary from "./pages/Itinerary";
-import CostIndex from "./pages/CostIndex";
+
+const Bookmarks = lazy(() => import("./pages/Bookmarks"));
+const DestinationDetail = lazy(() => import("./pages/DestinationDetail"));
+const Itinerary = lazy(() => import("./pages/Itinerary"));
+const CostIndex = lazy(() => import("./pages/CostIndex"));
 
 const AIRPORT_KEY = "travel-departure";
 
@@ -55,6 +56,7 @@ export default function App() {
           onDepartureChange={setDepartureAirport}
         />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <Suspense fallback={<div className="flex justify-center items-center py-32"><span className="text-4xl animate-spin">🌍</span></div>}>
           <Routes>
             <Route
               path="/"
@@ -114,6 +116,7 @@ export default function App() {
               element={<CostIndex />}
             />
           </Routes>
+          </Suspense>
         </main>
       </div>
     </BrowserRouter>

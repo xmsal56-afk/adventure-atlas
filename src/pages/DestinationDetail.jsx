@@ -186,6 +186,15 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
                 </>
               ) : (<span className="font-semibold text-gray-400">—</span>)}
             </div>
+            {flightHours !== undefined && (
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4">
+                <span className="text-sm text-gray-400 block">💰 Est. Flight Cost</span>
+                <span className="font-semibold text-gray-800 dark:text-gray-200">
+                  ~${Math.round(flightHours * 65)}–${Math.round(flightHours * 120)}
+                </span>
+                <span className="block text-xs text-gray-400 mt-0.5">{flightHours < 5 ? "Short haul" : flightHours < 10 ? "Medium haul" : "Long haul"} · Economy per person</span>
+              </div>
+            )}
             <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4">
               <span className="text-sm text-gray-400 block">🛂 Visa (US Passport)</span>
               <span className="font-semibold text-gray-800 dark:text-gray-200">{visaInfo || "—"}</span>
