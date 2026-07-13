@@ -226,7 +226,7 @@ export default function Itinerary({ stops, addStop, removeStop, updateDays, move
             </div>
           )}
 
-          {/* Export */}
+          {/* Export & Share */}
           {stopDestinations.length > 0 && (
             <div className="mt-4 flex items-center gap-3">
               <button onClick={() => {
@@ -249,6 +249,19 @@ export default function Itinerary({ stops, addStop, removeStop, updateDays, move
               }}
                 className="px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer border-0">
                 📤 Export Trip
+              </button>
+              <button onClick={() => {
+                try {
+                  const data = btoa(JSON.stringify(stops.map(s => ({ destId: s.destId, days: s.days, order: s.order }))));
+                  const url = `${window.location.origin}/share/${data}`;
+                  navigator.clipboard.writeText(url).then(() => {
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  });
+                } catch {}
+              }}
+                className="px-4 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors cursor-pointer border-0">
+                🔗 Share Trip
               </button>
               {copied && (
                 <span className="text-xs text-green-600 dark:text-green-400 font-medium animate-pulse">Copied! ✓</span>
