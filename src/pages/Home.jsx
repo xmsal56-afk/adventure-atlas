@@ -22,6 +22,7 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
   const [sortBy, setSortBy] = useState("default");
   const [viewMode, setViewMode] = useState("grid");
   const [compareMode, setCompareMode] = useState(false);
+  const [activeVibe, setActiveVibe] = useState(null);
   const [compareIds, setCompareIds] = useState([]);
   const [showQuiz, setShowQuiz] = useState(false);
 
@@ -34,7 +35,11 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
     navigate(`/destination/${random.id}`);
   };
 
-  const sorted = [...filtered].sort((a, b) => {
+  const vibeFiltered = activeVibe
+    ? filtered.filter((d) => d.vibes?.includes(activeVibe))
+    : filtered;
+
+  const sorted = [...vibeFiltered].sort((a, b) => {
     if (sortBy === "rating") return b.rating - a.rating;
     if (sortBy === "name") return a.name.localeCompare(b.name);
     if (sortBy === "cheapest") return (a.exchangeRate || 0) - (b.exchangeRate || 0);
@@ -169,7 +174,29 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         </div>
       )}
 
-      {viewMode === "grid" && <SearchBar destinations={destinations} onFilter={handleFilter} />}
+      {viewMode === "grid" && (
+        <>
+          <SearchBar destinations={destinations} onFilter={handleFilter} />
+          <div className="flex flex-wrap gap-2 mb-4">
+            {[
+              ["all","All"],
+              ["beach","🏖️ Beach"],["adventure","🏔️ Adventure"],["culture","🏛️ Culture"],
+              ["foodie","🍜 Foodie"],["nightlife","🌙 Nightlife"],["nature","🌿 Nature"],
+              ["luxury","💎 Luxury"],["backpacker","🎒 Budget"],["romance","💑 Romance"],
+              ["family","👨‍👩‍👧‍👦 Family"],
+            ].map(([key, label]) => (
+              <button key={key} onClick={() => setActiveVibe(key === "all" ? null : key)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer border-0 ${
+                  activeVibe === key || (key === "all" && !activeVibe)
+                    ? "bg-primary text-white shadow-sm"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
+                }`}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
 
       <div className="flex items-center justify-between mb-6">
         <p className="text-sm text-gray-500 dark:text-gray-400">

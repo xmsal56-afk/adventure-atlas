@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
 import SafeImage from "../components/SafeImage";
 
+const vibeEmojis = {
+  beach:"🏖️",adventure:"🏔️",romance:"💑",culture:"🏛️",
+  foodie:"🍜",nature:"🌿",nightlife:"🌙",luxury:"💎",
+  family:"👨‍👩‍👧‍👦",backpacker:"🎒",art:"🎨",music:"🎵",
+  history:"📜",sports:"⚽",shopping:"🛍️",photography:"📷",
+  diving:"🤿",coffee:"☕",entertainment:"🎭",space:"🚀",
+  design:"✏️",spiritual:"🧘",
+};
+
 const fields = [
   { key: "rating", label: "Rating", render: (v) => `${v} ★` },
   { key: "region", label: "Region" },
@@ -17,6 +26,17 @@ const fields = [
     render: (v) => (v === 1 ? "At par" : v ? `1 USD ≈ ${v.toLocaleString()}` : "—"),
   },
   { key: "language", label: "Language" },
+  { key: "visaInfo", label: "Visa (US Passport)" },
+  {
+    key: "famousFor",
+    label: "Famous For",
+    render: (v) => v?.slice(0, 3).join(", ") || "—",
+  },
+  {
+    key: "vibes",
+    label: "Vibes",
+    render: (v) => (v || []).map((x) => vibeEmojis[x] || x).join(" ") || "—",
+  },
 ];
 
 export default function CompareView({ destinations, onClose }) {

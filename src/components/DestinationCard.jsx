@@ -39,6 +39,11 @@ export default function DestinationCard({
             <div className="absolute top-3 left-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-semibold text-gray-700 dark:text-gray-200">
               {region}
             </div>
+            {isInBestTime(bestTime) && (
+              <div className="absolute top-3 right-3 bg-green-500/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-bold text-white shadow-sm">
+                🌿 Peak
+              </div>
+            )}
             {exchangeRate !== undefined && (
               <div className={`absolute top-3 left-3 ${region ? "mt-8" : ""} ${
                 exchangeRate < 1 ? "bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300"
