@@ -7,6 +7,7 @@ import useItinerary from "./hooks/useItinerary";
 import Header from "./components/Header";
 import ScrollToTop from "./components/ScrollToTop";
 import AuthModal from "./components/AuthModal";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Home from "./pages/Home";
 
 const Bookmarks = lazy(() => import("./pages/Bookmarks"));
@@ -63,6 +64,7 @@ export default function App() {
         />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Suspense fallback={<div className="flex justify-center items-center py-32"><span className="text-4xl animate-spin">🌍</span></div>}>
+          <ErrorBoundary>
           <Routes>
             <Route
               path="/"
@@ -134,6 +136,7 @@ export default function App() {
               element={<TravelGame />}
             />
           </Routes>
+          </ErrorBoundary>
           </Suspense>
         </main>
         <AuthModal />
