@@ -131,6 +131,9 @@ export default function Header({ bookmarkCount, itineraryCount, darkMode, onTogg
               <Link to="/price-tracker" className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition-colors no-underline text-[11px] sm:text-sm">
                 📉 Prices
               </Link>
+              <Link to="/game" className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition-colors no-underline text-[11px] sm:text-sm">
+                🎮 Game
+              </Link>
               <button onClick={goRandom}
                 className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer bg-transparent border-0 text-xs sm:text-sm p-0.5">
                 🎲
