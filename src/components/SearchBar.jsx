@@ -51,7 +51,9 @@ export default function SearchBar({ destinations, onFilter }) {
         query === "" ||
         d.name.toLowerCase().includes(q) ||
         d.country.toLowerCase().includes(q) ||
-        (d.famousFor || []).some((item) => item.toLowerCase().includes(q));
+        (d.famousFor || []).some((item) => item.toLowerCase().includes(q)) ||
+        (d.mustEat || []).some((item) => item.toLowerCase().includes(q)) ||
+        (d.topAttractions || []).some((item) => item.toLowerCase().includes(q));
       const matchesRegion = region === "All" || d.region === region;
 
       let matchesBudget = true;
