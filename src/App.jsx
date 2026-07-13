@@ -16,7 +16,6 @@ const Itinerary = lazy(() => import("./pages/Itinerary"));
 const CostIndex = lazy(() => import("./pages/CostIndex"));
 const SharedTrip = lazy(() => import("./pages/SharedTrip"));
 const PriceTracker = lazy(() => import("./pages/PriceTracker"));
-const TravelGame = lazy(() => import("./pages/TravelGame"));
 
 const AIRPORT_KEY = "travel-departure";
 
@@ -130,10 +129,6 @@ export default function App() {
             <Route
               path="/price-tracker"
               element={<PriceTracker />}
-            />
-            <Route
-              path="/game"
-              element={<TravelGame />}
             />
           </Routes>
           </ErrorBoundary>
