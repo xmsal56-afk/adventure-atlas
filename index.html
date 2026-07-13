@@ -5,7 +5,14 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Adventure Atlas — Explore the World</title>
-    <meta name="description" content="Discover, compare, and plan your next adventure across 85 destinations worldwide." />
+    <meta name="description" content="Discover, compare, and plan your next adventure across 150 destinations worldwide." />
+    <style>
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .card-enter { animation: fadeInUp 0.35s ease-out both; }
+    </style>
   </head>
   <body>
     <div id="root"></div>

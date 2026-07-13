@@ -136,6 +136,34 @@ export default function SearchBar({ destinations, onFilter }) {
           </button>
         ))}
       </div>
+
+      {filtered.length === 0 && search && (
+        <div className="mt-6 text-center py-10 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+          <span className="text-4xl">🔍</span>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mt-3 mb-1">No destinations found</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
+            Nothing matches "<span className="font-semibold text-gray-700 dark:text-gray-300">{search}</span>". Try a different search, region, or budget.
+          </p>
+          <div className="mt-4 flex flex-wrap justify-center gap-2">
+            <button onClick={() => { setSearch(""); setRegion("All"); setBudgetTier("all"); setVibe("all"); window.dispatchEvent(new CustomEvent("search-filter", {detail: destinations})) }}
+              className="px-4 py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors cursor-pointer border-0">
+              Reset all filters
+            </button>
+          </div>
+        </div>
+      )}
+
+      {filtered.length === 0 && !search && (
+        <div className="mt-6 text-center py-10 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+          <span className="text-4xl">🌍</span>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mt-3 mb-1">No matches</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Try a different region, budget, or vibe.</p>
+          <button onClick={() => { setRegion("All"); setBudgetTier("all"); setVibe("all"); window.dispatchEvent(new CustomEvent("search-filter", {detail: destinations})) }}
+            className="mt-4 px-4 py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors cursor-pointer border-0">
+            Reset filters
+          </button>
+        </div>
+      )}
     </div>
   );
 }

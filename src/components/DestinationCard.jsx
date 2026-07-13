@@ -18,6 +18,8 @@ export default function DestinationCard({
   onToggleCompare,
   departureAirport = "NYC",
   onAddToItinerary,
+  style,
+  className = "",
 }) {
   if (!destination) return null;
   const { id, name, shortDescription, image, rating, region, famousFor, exchangeRate, budget, vibes, flightTimes, bestTime, mustEat, familiarChains } = destination;
@@ -26,7 +28,7 @@ export default function DestinationCard({
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-2xl shadow-sm border overflow-hidden hover:shadow-lg transition-all duration-300 group flex flex-col ${
       selectedForCompare ? "border-pink-500 ring-2 ring-pink-300" : "border-gray-100 dark:border-gray-700"
-    }`}>
+    } ${className}`} style={style}>
       <div className="relative">
         <Link to={`/destination/${id}`} className="no-underline block">
           <div className="relative h-52 overflow-hidden">
