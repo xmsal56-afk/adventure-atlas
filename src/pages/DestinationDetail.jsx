@@ -22,7 +22,18 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
   const navigate = useNavigate();
   const destination = destinations.find((d) => d.id === Number(id));
   const [tripDays, setTripDays] = useState(7);
-  const [noteText, setNoteText] = useState(getNote ? getNote(Number(id)) : "");
+  const [noteText, setNoteText] = useState(getNote(id));
+
+  // Track view for trending
+  useEffect(() => {
+    if (!id) return;
+    try {
+      const key = "travel-views";
+      const views = JSON.parse(localStorage.getItem(key) || "{}");
+      views[id] = (views[id] || 0) + 1;
+      localStorage.setItem(key, JSON.stringify(views));
+    } catch {}
+  }, [id]);
 
   useEffect(() => {
     if (addRecent && destination) addRecent(destination.id);

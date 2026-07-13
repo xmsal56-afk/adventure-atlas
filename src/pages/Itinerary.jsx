@@ -69,6 +69,42 @@ export default function Itinerary({ stops, addStop, removeStop, updateDays, move
               🗑️ Clear
             </button>
           )}
+          <button onClick={() => {
+            const data = {};
+            for (let i = 0; i < localStorage.length; i++) {
+              const k = localStorage.key(i);
+              if (k && k.startsWith("travel-")) data[k] = localStorage.getItem(k);
+            }
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `adventure-atlas-${new Date().toISOString().split("T")[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(a.href);
+          }}
+            className="px-4 py-2.5 rounded-xl bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-sm font-medium hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors cursor-pointer border-0">
+            💾 Save Data
+          </button>
+          <label className="px-4 py-2.5 rounded-xl bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 text-sm font-medium hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors cursor-pointer border-0 inline-block">
+            📂 Restore Data
+            <input type="file" accept=".json" className="hidden" onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              const reader = new FileReader();
+              reader.onload = (ev) => {
+                try {
+                  const data = JSON.parse(ev.target.result);
+                  let count = 0;
+                  Object.entries(data).forEach(([k, v]) => {
+                    if (k.startsWith("travel-")) { localStorage.setItem(k, v); count++; }
+                  });
+                  alert(`Restored ${count} items! Refreshing page...`);
+                  window.location.reload();
+                } catch { alert("Invalid backup file"); }
+              };
+              reader.readAsText(file);
+            }} />
+          </label>
         </div>
       </div>
 
