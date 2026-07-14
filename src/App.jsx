@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import useBookmarks from "./hooks/useBookmarks";
 import useRecentlyViewed from "./hooks/useRecentlyViewed";
@@ -156,7 +156,7 @@ export default function App() {
               { to: "/itinerary", label: "Plan", icon: "🗓️" },
               { to: "/price-tracker", label: "Prices", icon: "📉" },
             ].map(({ to, label, icon }) => {
-              const isActive = location.pathname === to || (to !== "/" && location.pathname.startsWith(to));
+              const isActive = window.location.pathname === to || (to !== "/" && window.location.pathname.startsWith(to));
               return (
                 <Link key={to} to={to}
                   className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-lg transition-colors no-underline ${
