@@ -121,6 +121,9 @@ export default function Header({ bookmarkCount, itineraryCount, darkMode, onTogg
               <Link to="/cost-index" className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition-colors no-underline text-[11px] sm:text-sm">
                 💰 Costs
               </Link>
+              <Link to="/budget-calculator" className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition-colors no-underline text-[11px] sm:text-sm">
+                📊 Budget
+              </Link>
               <Link to="/itinerary" className="flex items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition-colors no-underline text-[11px] sm:text-sm">
                 🗓️
                 <span className="hidden sm:inline">Plan</span>

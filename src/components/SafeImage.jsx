@@ -4,14 +4,21 @@ const FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
 
 export default function SafeImage({ src, alt, className, loading = "lazy" }) {
   const [failed, setFailed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   return (
-    <img
-      src={failed ? FALLBACK : src}
-      alt={alt}
-      className={className}
-      loading={loading}
-      onError={() => setFailed(true)}
-    />
+    <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-800 w-full h-full">
+      {!loaded && (
+        <div className="absolute inset-0 animate-pulse bg-gray-200 dark:bg-gray-700" />
+      )}
+      <img
+        src={failed ? FALLBACK : src}
+        alt={alt}
+        className={`${className || ""} transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+        loading={loading}
+        onError={() => { setFailed(true); setLoaded(true); }}
+        onLoad={() => setLoaded(true)}
+      />
+    </div>
   );
 }

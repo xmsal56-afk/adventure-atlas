@@ -1,9 +1,28 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
-import { supabase, isSupabaseConfigured } from "../lib/supabase";
+
+// Lazy supabase — only loads when auth is actually used
+let supabaseInstance = null;
+let configured = false;
+async function getSupabase() {
+  if (!supabaseInstance) {
+    try {
+      const mod = await import("../lib/supabase");
+      supabaseInstance = mod.supabase;
+      configured = mod.isSupabaseConfigured();
+    } catch {
+      configured = false;
+    }
+  }
+  return { supabase: supabaseInstance, configured };
+}
 
 const AuthContext = createContext(null);
 
 const STORAGE_PREFIX = "travel-";
+
+// Non-reactive references set once supabase is loaded
+let _supabase = null;
+let _configured = false;
 
 function getAllLocalData() {
   const data = {};
@@ -29,32 +48,40 @@ export function AuthProvider({ children }) {
   const [lastSync, setLastSync] = useState(null);
 
   useEffect(() => {
-    if (!isSupabaseConfigured()) {
-      setLoading(false);
-      return;
-    }
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      const newUser = session?.user ?? null;
-      setUser(newUser);
-      if (newUser) {
-        // User just signed in — restore data from cloud
-        loadFromCloud();
+    let cancelled = false;
+    (async () => {
+      const { supabase: sb, configured: cfg } = await getSupabase();
+      if (cancelled) return;
+      _supabase = sb;
+      _configured = cfg;
+      if (!cfg) {
+        setLoading(false);
+        return;
       }
-    });
 
-    return () => subscription?.unsubscribe();
+      _supabase.auth.getSession().then(({ data: { session } }) => {
+        if (!cancelled) {
+          setUser(session?.user ?? null);
+          setLoading(false);
+        }
+      });
+
+      const { data: { subscription } } = _supabase.auth.onAuthStateChange((_event, session) => {
+        const newUser = session?.user ?? null;
+        setUser(newUser);
+        if (newUser) {
+          loadFromCloud();
+        }
+      });
+
+      return () => { subscription?.unsubscribe(); cancelled = true; };
+    })();
   }, []);
 
   const loadFromCloud = useCallback(async () => {
-    if (!isSupabaseConfigured() || !user) return;
+    if (!_configured || !user) return;
     try {
-      const { data, error } = await supabase
+      const { data, error } = await _supabase
         .from("user_data")
         .select("data, updated_at")
         .eq("user_id", user.id)
@@ -70,10 +97,10 @@ export function AuthProvider({ children }) {
   }, [user]);
 
   const syncToCloud = useCallback(async () => {
-    if (!isSupabaseConfigured() || !user) return false;
+    if (!_configured || !user) return false;
     const localData = getAllLocalData();
     try {
-      const { error } = await supabase
+      const { error } = await _supabase
         .from("user_data")
         .upsert({ user_id: user.id, data: localData, updated_at: new Date().toISOString() });
       if (error) throw error;
@@ -86,20 +113,20 @@ export function AuthProvider({ children }) {
   }, [user]);
 
   const signUp = async (email, password) => {
-    if (!isSupabaseConfigured()) return { error: "Supabase not configured" };
-    const { error } = await supabase.auth.signUp({ email, password });
+    if (!_configured) return { error: "Supabase not configured" };
+    const { error } = await _supabase.auth.signUp({ email, password });
     return { error };
   };
 
   const signIn = async (email, password) => {
-    if (!isSupabaseConfigured()) return { error: "Supabase not configured" };
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (!_configured) return { error: "Supabase not configured" };
+    const { error } = await _supabase.auth.signInWithPassword({ email, password });
     return { error };
   };
 
   const signOut = async () => {
-    if (!isSupabaseConfigured()) return;
-    await supabase.auth.signOut();
+    if (!_configured) return;
+    await _supabase.auth.signOut();
     setUser(null);
   };
 
