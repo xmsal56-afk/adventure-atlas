@@ -34,7 +34,6 @@ export default function App() {
   const [departureAirport, setDepartureAirport] = useState(() => {
     return localStorage.getItem(AIRPORT_KEY) || "NYC";
   });
-  const location = useLocation();
 
   useEffect(() => {
     const root = document.documentElement;

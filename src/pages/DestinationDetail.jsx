@@ -78,13 +78,14 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
   const budgetInfo = getBudgetLabel(budget);
 
   const goRandom = () => {
+    if (!destination) return;
     const others = destinations.filter((d) => d.id !== destination.id);
     const random = others[Math.floor(Math.random() * others.length)];
-    navigate(`/destination/${random.id}`);
+    if (random) navigate(`/destination/${random.id}`);
   };
 
-  const related = destinations.filter((d) => d.id !== destination.id && d.region === region).slice(0, 3);
-  const allRelated = related.length ? related : destinations.filter((d) => d.id !== destination.id).slice(0, 3);
+  const related = destinations.filter((d) => d?.id !== destination?.id && d?.region === region).slice(0, 3);
+  const allRelated = related.length ? related : destinations.filter((d) => d?.id !== destination?.id).slice(0, 3);
 
   const handleNoteSave = () => {
     if (updateNote) updateNote(destination.id, noteText);
@@ -386,7 +387,7 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
               {related.length ? `Other destinations in ${region} worth exploring` : "Handpicked destinations you might enjoy"}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {allRelated.map((dest) => (
+              {allRelated.filter(Boolean).map((dest) => (
                 <Link key={dest.id} to={`/destination/${dest.id}`}
                   className="group block bg-white dark:bg-gray-700 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-600 shadow-sm hover:shadow-md transition-all no-underline">
                   <div className="h-32 overflow-hidden">

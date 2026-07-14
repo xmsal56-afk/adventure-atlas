@@ -1,4 +1,4 @@
-const destinations = [
+const _adventure_atlas_destinations_ = (() => [
   {
     id: 1,
     name: "Bali, Indonesia",
@@ -2260,6 +2260,6 @@ const destinations = [
   { id: 149, name: "Mendoza, Argentina", region: "South America", country: "Argentina", shortDescription: "Argentina's wine capital at the foot of the Andes.", description: "Mendoza is Argentina's wine country \u2014 Malbec vineyards against the Andes backdrop, world-class bodegas, and olive oil tastings. Whitewater rafting on the Mendoza River, Aconcagua treks, and asado feasts make it a perfect blend.", mustEat: ["Asado", "Malbec", "Empanadas"], topAttractions: ["Wine Tasting", "Aconcagua Base Camp", "Rafting"], localPhrases: ["Hello \u2014 Hola", "Thank you \u2014 Gracias", "How much? \u2014 Cu\u00e1nto?"], gettingAround: "Rental car, wine tour bus, taxi, bicycle wine tours", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Downtown_Mendoza.jpg/960px-Downtown_Mendoza.jpg", rating: 4.5, bestTime: "March to May & September to November", currency: "Argentine Peso (ARS)", exchangeRate: 870, language: "Spanish, English", famousFor: ["Malbec", "Andes", "Aconcagua", "Olive Oil"], budget: { min: 40, max: 100 }, vibes: ["foodie", "nature", "adventure", "luxury"], lat: -32.89, lng: -68.84, flightTimes: { NYC: 11.2, LON: 15.3, DXB: 19.1, TYO: 22.5, SYD: 15.3, LAX: 12.3, FRA: 15.8, ATL: 10.4, ORD: 11.6, DFW: 10.8, SEA: 13.9, MIA: 9.2 }, visaInfo: "Visa-free (90 days)" },
   { id: 150, name: "Havana, Cuba", region: "Caribbean", country: "Cuba", shortDescription: "Time capsule of vintage cars, salsa, and revolution.", description: "Havana is frozen in time \u2014 1950s Chevrolets on the Malec\u00f3n, colonial plazas, Hemingway's haunts, and salsa rhythms on every corner. Old Havana's UNESCO architecture, cigar factories, and mojitos define Cuba's soul.", mustEat: ["Ropa Vieja", "Cuban Sandwich", "Mojito"], topAttractions: ["Old Havana", "Malec\u00f3n", "El Capitolio"], localPhrases: ["Hello \u2014 Hola", "Thank you \u2014 Gracias", "How are you? \u2014 Qu\u00e9 bola?"], gettingAround: "Classic car taxi ($30/hr), bicitaxi, coco taxi, walking", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/DJI_0197_crp_wiki.jpg/960px-DJI_0197_crp_wiki.jpg", rating: 4.3, bestTime: "November to April", currency: "Cuban Peso (CUP)", exchangeRate: 24, language: "Spanish", famousFor: ["Vintage Cars", "Salsa", "Cigars", "Mojitos"], budget: { min: 30, max: 80 }, vibes: ["culture", "history", "music", "nightlife"], lat: 23.11, lng: -82.37, flightTimes: { NYC: 3.6, LON: 10.3, DXB: 17.1, TYO: 16.0, SYD: 19.3, LAX: 5.6, FRA: 11.1, ATL: 2.5, ORD: 3.7, DFW: 3.2, SEA: 6.5, MIA: 1.5 }, visaInfo: "Tourist card required" },
 
-];
+])();
 
-export default destinations;
+export default _adventure_atlas_destinations_;
