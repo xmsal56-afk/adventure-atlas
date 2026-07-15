@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import destinations from "../data/destinations";
 import SearchBar from "../components/SearchBar";
+import DestinationCard from "../components/DestinationCard";
 
 export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recentIds, departureAirport = "NYC", onAddToItinerary }) {
   const [filtered, setFiltered] = useState(destinations);
@@ -26,7 +27,19 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         </button>
       </div>
       <SearchBar destinations={destinations} onFilter={handleFilter} />
-      <p className="text-center text-gray-500">{filtered.length} destinations found</p>
+      <p className="text-sm text-gray-500 mb-4">{filtered.length} destinations found</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {filtered.map((dest, idx) => (
+          <DestinationCard
+            key={dest.id}
+            destination={dest}
+            isBookmarked={isBookmarked(dest.id)}
+            onToggleBookmark={onToggleBookmark}
+            departureAirport={departureAirport}
+            onAddToItinerary={onAddToItinerary}
+          />
+        ))}
+      </div>
     </div>
   );
 }
