@@ -29,10 +29,11 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
           🎲 Surprise Me
         </button>
       </div>
+
       <SearchBar destinations={destinations} onFilter={handleFilter} />
 
       {/* Where to Go This Month */}
-      {(viewMode !== "map") && (() => {
+      {viewMode !== "map" && (() => {
         const inSeason = destinations.filter(d => isInBestTime(d.bestTime));
         if (inSeason.length === 0) return null;
         return (
@@ -56,6 +57,46 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
                     <div className="flex items-center gap-1 mt-0.5">
                       <span className="text-[10px] text-gray-400">{d.region}</span>
                       <span className="text-[10px] font-bold text-yellow-500">★ {d.rating}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Trending Now */}
+      {viewMode !== "map" && (() => {
+        let trending = [];
+        try {
+          const views = JSON.parse(localStorage.getItem("travel-views") || "{}");
+          trending = Object.entries(views)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 8)
+            .map(([id]) => destinations.find(d => d.id === Number(id)))
+            .filter(Boolean);
+        } catch {}
+        if (trending.length < 3) return null;
+        return (
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                🔥 Trending Now
+              </h2>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
+              {trending.map((d) => (
+                <Link key={d.id} to={`/destination/${d.id}`}
+                  className="flex-shrink-0 w-44 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all no-underline">
+                  <div className="h-20 overflow-hidden">
+                    <SafeImage src={d.image} alt={d.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  </div>
+                  <div className="p-2.5">
+                    <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{d.name}</p>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <span className="text-[10px] text-gray-400">{d.region}</span>
+                      <span className="text-[10px] font-bold text-amber-500">★ {d.rating}</span>
                     </div>
                   </div>
                 </Link>
