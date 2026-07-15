@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import destinations from "../data/destinations";
 import SafeImage from "../components/SafeImage";
-import BookmarkButton from "../components/BookmarkButton";
 import { isInBestTime } from "../utils/bestTime";
 
 const vibeEmoji = {
@@ -94,9 +93,6 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
               </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-white">{name}</h1>
             </div>
-            {isBookmarked && onToggleBookmark && (
-              <BookmarkButton isBookmarked={isBookmarked(id)} onClick={() => onToggleBookmark(id)} large />
-            )}
           </div>
         </div>
         <div className="p-6 sm:p-8">
