@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import destinations from "../data/destinations";
 import SearchBar from "../components/SearchBar";
@@ -11,7 +11,7 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
   const [activeVibe, setActiveVibe] = useState(null);
   const [sortBy, setSortBy] = useState("default");
 
-  const handleFilter = (filteredList) => { setFiltered(filteredList); };
+  const handleFilter = useCallback((filteredList) => { setFiltered(filteredList); }, []);
   
   const pickRandom = () => {
     const rand = destinations[Math.floor(Math.random() * destinations.length)];
