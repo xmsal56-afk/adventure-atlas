@@ -21,13 +21,8 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
   return (
     <div>
       <div className="text-center mb-8">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white mb-3">
-          Explore the World 🌍
-        </h1>
-        <button onClick={pickRandom}
-          className="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-dark cursor-pointer border-0">
-          🎲 Surprise Me
-        </button>
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white mb-3">Explore the World 🌍</h1>
+        <button onClick={pickRandom} className="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-dark cursor-pointer border-0">🎲 Surprise Me</button>
       </div>
 
       <SearchBar destinations={destinations} onFilter={handleFilter} />
@@ -47,8 +42,7 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
             </div>
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
               {inSeason.map((d) => (
-                <Link key={d.id} to={`/destination/${d.id}`}
-                  className="flex-shrink-0 w-36 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-green-100 dark:border-green-800/40 shadow-sm hover:shadow-md transition-all no-underline">
+                <Link key={d.id} to={`/destination/${d.id}`} className="flex-shrink-0 w-36 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-green-100 dark:border-green-800/40 shadow-sm hover:shadow-md transition-all no-underline">
                   <div className="h-16 overflow-hidden">
                     <SafeImage src={d.image} alt={d.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                   </div>
@@ -71,24 +65,17 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         let trending = [];
         try {
           const views = JSON.parse(localStorage.getItem("travel-views") || "{}");
-          trending = Object.entries(views)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 8)
-            .map(([id]) => destinations.find(d => d.id === Number(id)))
-            .filter(Boolean);
+          trending = Object.entries(views).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([id]) => destinations.find(d => d.id === Number(id))).filter(Boolean);
         } catch {}
         if (trending.length < 3) return null;
         return (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
-                🔥 Trending Now
-              </h2>
+              <h2 className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">🔥 Trending Now</h2>
             </div>
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
               {trending.map((d) => (
-                <Link key={d.id} to={`/destination/${d.id}`}
-                  className="flex-shrink-0 w-44 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all no-underline">
+                <Link key={d.id} to={`/destination/${d.id}`} className="flex-shrink-0 w-44 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all no-underline">
                   <div className="h-20 overflow-hidden">
                     <SafeImage src={d.image} alt={d.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                   </div>
@@ -106,6 +93,39 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         );
       })()}
 
+      {/* Recently Viewed */}
+      {recentIds && recentIds.length > 0 && viewMode !== "map" && (
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">🕐 Recently Viewed</h2>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
+            {recentIds.map(function(id) {
+              if (id == null) return null;
+              var dest = null;
+              for (var i = 0; i < destinations.length; i++) {
+                if (destinations[i].id === id) { dest = destinations[i]; break; }
+              }
+              if (!dest) return null;
+              return (
+                <Link key={dest.id} to={"/destination/" + dest.id} className="flex-shrink-0 w-44 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all no-underline">
+                  <div className="h-20 overflow-hidden">
+                    <SafeImage src={dest.image} alt={dest.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  </div>
+                  <div className="p-2.5">
+                    <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{dest.name}</p>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <span className="text-[10px] text-gray-400">{dest.region}</span>
+                      <span className="text-[10px] font-bold text-accent">★ {dest.rating}</span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700">
@@ -113,7 +133,7 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Destinations</p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700">
-          <span className="text-2xl font-extrabold text-green-600">{new Set(destinations.map((d) => d.region)).size}</span>
+          <span className="text-2xl font-extrabold text-green-600">{new Set(destinations.map(function(d) { return d.region; })).size}</span>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Regions</p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700">
@@ -121,22 +141,25 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Bookmarked</p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700">
-          <span className="text-2xl font-extrabold text-amber-500">{(destinations.reduce((s, d) => s + d.rating, 0) / destinations.length).toFixed(1)}</span>
+          <span className="text-2xl font-extrabold text-amber-500">{(destinations.reduce(function(s, d) { return s + d.rating; }, 0) / destinations.length).toFixed(1)}</span>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Avg Rating</p>
         </div>
       </div>
 
+      <p className="text-sm text-gray-500 mb-4">{filtered.length} destinations found</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filtered.map((dest, idx) => (
-          <DestinationCard
-            key={dest.id}
-            destination={dest}
-            isBookmarked={isBookmarked(dest.id)}
-            onToggleBookmark={onToggleBookmark}
-            departureAirport={departureAirport}
-            onAddToItinerary={onAddToItinerary}
-          />
-        ))}
+        {filtered.map(function(dest, idx) {
+          return (
+            <DestinationCard
+              key={dest.id}
+              destination={dest}
+              isBookmarked={isBookmarked(dest.id)}
+              onToggleBookmark={onToggleBookmark}
+              departureAirport={departureAirport}
+              onAddToItinerary={onAddToItinerary}
+            />
+          );
+        })}
       </div>
     </div>
   );
