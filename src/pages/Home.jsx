@@ -66,8 +66,9 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
   const bookmarkedCount = bookmarks.length;
   const avgRating = (destinations.reduce((s, d) => s + d.rating, 0) / destinations.length).toFixed(1);
 
-  return (
-    <div>
+  try {
+    return (
+      <div>
       {/* Hero */}
       <div className="text-center mb-8">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white mb-3">
@@ -348,4 +349,8 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
       {showQuiz && <DestinationQuiz onClose={() => setShowQuiz(false)} />}
     </div>
   );
+  } catch (e) {
+    console.error("Home render error:", e, e.stack);
+    return <div className="text-center py-20"><p className="text-gray-500">Something went wrong loading the home page</p></div>;
+  }
 }
