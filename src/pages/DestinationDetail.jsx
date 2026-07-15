@@ -13,9 +13,9 @@ const vibeEmoji = {
 
 export default function DestinationDetail({ isBookmarked, onToggleBookmark, getNote, updateNote, addRecent, departureAirport = "NYC", onAddToItinerary }) {
   const params = useParams();
-  const id = params?.id;
+  const id = Number(params?.id);
   const navigate = useNavigate();
-  const destination = destinations?.find?.((d) => d?.id === Number(id));
+  const destination = destinations?.find?.((d) => d?.id === id);
 
   useEffect(() => {
     if (!id) return;
@@ -48,7 +48,7 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
     if (updateNote && destination) updateNote(destination.id, noteText);
   };
 
-  const { name, description, image, rating, region, country, bestTime, currency, language, famousFor, exchangeRate, budget, vibes, flightTimes, visaInfo, mustEat, topAttractions, localPhrases, gettingAround, familiarChains } = destination;
+  const { name, description, image, rating, region, country, bestTime, currency, language, famousFor, exchangeRate, budget, vibes, flightTimes, visaInfo, mustEat, topAttractions, localPhrases, gettingAround, familiarChains } = destination || {};
 
   const flightHours = flightTimes?.[departureAirport];
   const related = destinations.filter((d) => d?.id !== destination?.id && d?.region === region).slice(0, 3);
