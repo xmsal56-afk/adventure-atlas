@@ -6,6 +6,7 @@ import DestinationCard from "../components/DestinationCard";
 import SafeImage from "../components/SafeImage";
 import { isInBestTime } from "../utils/bestTime";
 import CompareView from "../components/CompareView";
+import MapView from "../components/MapView";
 
 export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recentIds, departureAirport = "NYC", onAddToItinerary }) {
   const [filtered, setFiltered] = useState(destinations);
@@ -14,6 +15,7 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
   const [sortBy, setSortBy] = useState("default");
   const [compareMode, setCompareMode] = useState(false);
   const [compareIds, setCompareIds] = useState([]);
+  const [viewMode, setViewMode] = useState("grid");
 
   const handleFilter = useCallback((list) => setFiltered(list), []);
 
@@ -195,6 +197,16 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
             className="text-sm font-semibold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer border-0">
             {compareMode ? "Done" : "⚖️ Compare"}
           </button>
+          <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5">
+            <button onClick={() => setViewMode("grid")}
+              className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer border-0 ${viewMode === "grid" ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"}`}>
+              ▦ Grid
+            </button>
+            <button onClick={() => setViewMode("map")}
+              className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer border-0 ${viewMode === "map" ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"}`}>
+              🗺️ Map
+            </button>
+          </div>
           <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}
             className="text-sm border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/30">
             <option value="default">Default</option>
@@ -208,24 +220,30 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         </div>
       </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {sorted.filter(Boolean).map((dest, idx) => (
-          <DestinationCard
-            key={dest?.id || idx}
-            destination={dest}
-            style={{ animationDelay: `${idx * 0.04}s` }}
-            className="card-enter"
-            isBookmarked={isBookmarked(dest?.id)}
-            onToggleBookmark={onToggleBookmark}
-            compareMode={compareMode}
-            selectedForCompare={compareIds.includes(dest?.id)}
-            onToggleCompare={toggleCompare}
-            departureAirport={departureAirport}
-            onAddToItinerary={onAddToItinerary}
-          />
-        ))}
-      </div>
+      {/* Grid / Map */}
+      {viewMode === "grid" ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {sorted.filter(Boolean).map((dest, idx) => (
+            <DestinationCard
+              key={dest?.id || idx}
+              destination={dest}
+              style={{ animationDelay: `${idx * 0.04}s` }}
+              className="card-enter"
+              isBookmarked={isBookmarked(dest?.id)}
+              onToggleBookmark={onToggleBookmark}
+              compareMode={compareMode}
+              selectedForCompare={compareIds.includes(dest?.id)}
+              onToggleCompare={toggleCompare}
+              departureAirport={departureAirport}
+              onAddToItinerary={onAddToItinerary}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="mb-8">
+          <MapView destinations={sorted.filter(Boolean)} />
+        </div>
+      )}
 
       {/* Compare Modal */}
       <div id="compare-modal" className="hidden">
