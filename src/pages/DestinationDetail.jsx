@@ -77,7 +77,7 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
 
   const valueInfo = getValueLabel(exchangeRate);
   const budgetInfo = getBudgetLabel(budget);
-  const isPeak = isInBestTime(destination);
+  const isPeak = isInBestTime(destination.bestTime);
 
   return (
     <div className="max-w-4xl mx-auto">
