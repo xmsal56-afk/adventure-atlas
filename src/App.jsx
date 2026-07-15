@@ -16,7 +16,6 @@ const DestinationDetail = lazy(() => import("./pages/DestinationDetail"));
 const Itinerary = lazy(() => import("./pages/Itinerary"));
 const CostIndex = lazy(() => import("./pages/CostIndex"));
 const SharedTrip = lazy(() => import("./pages/SharedTrip"));
-const PriceTracker = lazy(() => import("./pages/PriceTracker"));
 const BudgetCalculator = lazy(() => import("./pages/BudgetCalculator"));
 const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
 
@@ -130,10 +129,6 @@ export default function App() {
               element={<SharedTrip />}
             />
             <Route
-              path="/price-tracker"
-              element={<PriceTracker />}
-            />
-            <Route
               path="/budget-calculator"
               element={<BudgetCalculator />}
             />
@@ -153,7 +148,6 @@ export default function App() {
               { to: "/", label: "Home", icon: "🏠" },
               { to: "/bookmarks", label: "Saved", icon: "❤️" },
               { to: "/itinerary", label: "Plan", icon: "🗓️" },
-              { to: "/price-tracker", label: "Prices", icon: "📉" },
             ].map(({ to, label, icon }) => {
               const isActive = window.location.pathname === to || (to !== "/" && window.location.pathname.startsWith(to));
               return (
