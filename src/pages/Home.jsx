@@ -1,12 +1,15 @@
 import { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import destinations from "../data/destinations";
 import SearchBar from "../components/SearchBar";
 import DestinationCard from "../components/DestinationCard";
+import SafeImage from "../components/SafeImage";
+import { isInBestTime } from "../utils/bestTime";
 
 export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recentIds, departureAirport = "NYC", onAddToItinerary }) {
   const [filtered, setFiltered] = useState(destinations);
   const navigate = useNavigate();
+  const [viewMode, setViewMode] = useState("grid");
 
   const handleFilter = useCallback((list) => setFiltered(list), []);
 
@@ -27,6 +30,40 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         </button>
       </div>
       <SearchBar destinations={destinations} onFilter={handleFilter} />
+
+      {/* Where to Go This Month */}
+      {(viewMode !== "map") && (() => {
+        const inSeason = destinations.filter(d => isInBestTime(d.bestTime));
+        if (inSeason.length === 0) return null;
+        return (
+          <div className="mb-10 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10 rounded-3xl p-6 border border-green-200 dark:border-green-800/30">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white">🌿 Where to Go This Month</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Destinations in their peak season right now</p>
+              </div>
+              <span className="text-sm font-semibold text-green-600 dark:text-green-400 bg-white dark:bg-gray-800 px-3 py-1 rounded-full shadow-sm">{inSeason.length} spots</span>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
+              {inSeason.map((d) => (
+                <Link key={d.id} to={`/destination/${d.id}`}
+                  className="flex-shrink-0 w-36 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-green-100 dark:border-green-800/40 shadow-sm hover:shadow-md transition-all no-underline">
+                  <div className="h-16 overflow-hidden">
+                    <SafeImage src={d.image} alt={d.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  </div>
+                  <div className="p-2">
+                    <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{d.name}</p>
+                    <div className="flex items-center gap-1 mt-0.5">
+                      <span className="text-[10px] text-gray-400">{d.region}</span>
+                      <span className="text-[10px] font-bold text-yellow-500">★ {d.rating}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
