@@ -139,10 +139,15 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
       })()}
 
       {/* Where to Go This Month - REMOVED FOR DEBUG */}
-      {/* Trending Now - REMOVED */}e"],["culture","🏛️ Culture"],
-              ["foodie","🍜 Foodie"],["nightlife","🌙 Nightlife"],["nature","🌿 Nature"],
-              ["luxury","💎 Luxury"],["backpacker","🎒 Budget"],["romance","💑 Romance"],
-              ["family","👨‍👩‍👧‍👦 Family"],
+      {/* Trending Now - REMOVED */}
+      {/* Recently Viewed - REMOVED */}
+      {viewMode === "grid" && (
+        <>
+          <SearchBar destinations={destinations} onFilter={handleFilter} />
+          <div className="flex flex-wrap gap-2 mb-4">
+            {[
+              ["all","All"],
+              ["beach","🏖️ Beach"],["adventure","🏔️ Adventure"],["culture","🏛️ Culture"],
             ].map(([key, label]) => (
               <button key={key} onClick={() => setActiveVibe(key === "all" ? null : key)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer border-0 ${
