@@ -106,6 +106,38 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         );
       })()}
 
+      {/* Recently Viewed */}
+      {recentIds && recentIds.length > 0 && viewMode !== "map" && (
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+              🕐 Recently Viewed
+            </h2>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
+            {recentIds.map((id) => {
+              const d = destinations.find((dest) => dest.id === id);
+              if (!d) return null;
+              return (
+                <Link key={d.id} to={`/destination/${d.id}`}
+                  className="flex-shrink-0 w-44 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all no-underline">
+                  <div className="h-20 overflow-hidden">
+                    <SafeImage src={d.image} alt={d.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  </div>
+                  <div className="p-2.5">
+                    <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{d.name}</p>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <span className="text-[10px] text-gray-400">{d.region}</span>
+                      <span className="text-[10px] font-bold text-accent">★ {d.rating}</span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700">
@@ -126,7 +158,6 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         </div>
       </div>
 
-      <p className="text-sm text-gray-500 mb-4">{filtered.length} destinations found</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filtered.map((dest, idx) => (
           <DestinationCard
