@@ -152,6 +152,26 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         </div>
       )}
       {/* RV_END */}
+      {/* Stats */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700">
+          <span className="text-2xl font-extrabold text-primary">{filtered.length}</span>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Destinations</p>
+        </div>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700">
+          <span className="text-2xl font-extrabold text-green-600">{new Set(destinations.map((d) => d.region)).size}</span>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Regions</p>
+        </div>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700">
+          <span className="text-2xl font-extrabold text-pink-500">{bookmarks.length}</span>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Bookmarked</p>
+        </div>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700">
+          <span className="text-2xl font-extrabold text-amber-500">{(destinations.reduce((s, d) => s + d.rating, 0) / destinations.length).toFixed(1)}</span>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Avg Rating</p>
+        </div>
+      </div>
+      {/* Stats_END */}
       <div className="flex flex-wrap gap-2 mb-4">
         {[["all","All"],["beach","🏖️ Beach"],["adventure","🏔️ Adventure"],["culture","🏛️ Culture"],["foodie","🍜 Foodie"],["nightlife","🌙 Nightlife"],["nature","🌿 Nature"],["luxury","💎 Luxury"],["backpacker","🎒 Budget"],["romance","💑 Romance"],["family","👨‍👩‍👧‍👦 Family"]].map(([key, label]) => (
           <button key={key} onClick={() => setActiveVibe(key === "all" ? null : key)}
