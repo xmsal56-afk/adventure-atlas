@@ -45,34 +45,43 @@ export default function SearchBar({ destinations, onFilter }) {
   const [month, setMonth] = useState(-1);
 
   const filtered = useMemo(() => {
-    return destinations.filter((d) => {
-      const q = query.toLowerCase();
-      const matchesQuery =
-        query === "" ||
-        d.name.toLowerCase().includes(q) ||
-        d.country.toLowerCase().includes(q) ||
-        (d.famousFor || []).some((item) => item.toLowerCase().includes(q)) ||
-        (d.mustEat || []).some((item) => item.toLowerCase().includes(q)) ||
-        (d.topAttractions || []).some((item) => item.toLowerCase().includes(q)) ||
-        (d.familiarChains || []).some((item) => item.toLowerCase().includes(q));
-      const matchesRegion = region === "All" || d.region === region;
+    try {
+      return destinations.filter((d) => {
+        if (!d) return false;
+        try {
+          const q = query.toLowerCase();
+          const matchesQuery =
+            query === "" ||
+            (d.name || "").toLowerCase().includes(q) ||
+            (d.country || "").toLowerCase().includes(q) ||
+            (d.famousFor || []).some((item) => (item || "").toLowerCase().includes(q)) ||
+            (d.mustEat || []).some((item) => (item || "").toLowerCase().includes(q)) ||
+            (d.topAttractions || []).some((item) => (item || "").toLowerCase().includes(q)) ||
+            (d.familiarChains || []).some((item) => (item || "").toLowerCase().includes(q));
+          const matchesRegion = region === "All" || d.region === region;
 
-      let matchesBudget = true;
-      if (budgetTier !== "all" && d.budget) {
-        const tier = budgetTiers.find((t) => t.key === budgetTier);
-        if (tier) {
-          const { min = 0, max = Infinity } = tier;
-          matchesBudget =
-            (d.budget.min >= min || d.budget.max >= min) &&
-            (d.budget.max <= max || d.budget.min <= max);
+          let matchesBudget = true;
+          if (budgetTier !== "all" && d.budget && typeof d.budget === "object") {
+            const tier = budgetTiers.find((t) => t.key === budgetTier);
+            if (tier) {
+              const { min = 0, max = Infinity } = tier;
+              matchesBudget =
+                ((d.budget.min || 0) >= min || (d.budget.max || 0) >= min) &&
+                ((d.budget.max || 0) <= max || (d.budget.min || 0) <= max);
+            }
+          }
+
+          const matchesVibe = vibe === "all" || (d.vibes || []).includes(vibe);
+          const matchesMonth = month === -1 || matchesMonth(d, month);
+
+          return matchesQuery && matchesRegion && matchesBudget && matchesVibe && matchesMonth;
+        } catch {
+          return true;
         }
-      }
-
-      const matchesVibe = vibe === "all" || (d.vibes || []).includes(vibe);
-      const matchesMonth = month === -1 || matchesMonth(d, month);
-
-      return matchesQuery && matchesRegion && matchesBudget && matchesVibe && matchesMonth;
-    });
+      });
+    } catch {
+      return destinations || [];
+    }
   }, [query, region, budgetTier, vibe, month, destinations, onFilter]);
 
   useEffect(() => { onFilter(filtered); }, [filtered, onFilter]);
