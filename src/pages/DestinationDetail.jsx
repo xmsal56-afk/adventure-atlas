@@ -90,7 +90,8 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
   const isPeak = isInBestTime(destination);
 
   function safeSplit(val, sep) {
-    return typeof val === "string" ? val.split(sep) : [];
+    try { return typeof val === "string" ? val.split(sep) : []; }
+    catch { return []; }
   }
 
   return (
