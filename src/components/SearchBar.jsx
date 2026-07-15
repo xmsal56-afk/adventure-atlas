@@ -99,9 +99,8 @@ export default function SearchBar({ destinations, onFilter }) {
           }
 
           const matchesVibe = vibe === "all" || (d.vibes || []).includes(vibe);
-          const matchesMonth = month === -1 || matchesMonth(d, month);
-
-          return matchesQuery && matchesRegion && matchesBudget && matchesVibe && matchesMonth;
+          const passesMonth = month === -1 || matchesMonth(d, month);
+          return matchesQuery && matchesRegion && matchesBudget && matchesVibe && passesMonth;
         } catch {
           return true;
         }
