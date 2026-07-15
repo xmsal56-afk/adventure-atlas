@@ -135,6 +135,11 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
             <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4">
               <span className="text-sm text-gray-400 block">Currency</span>
               <span className="font-semibold text-gray-800 dark:text-gray-200">{currency}</span>
+              {exchangeRate !== undefined && (
+                <span className="block text-xs text-gray-400 mt-0.5">
+                  1 USD ≈ {exchangeRate} {currency}
+                </span>
+              )}
             </div>
             {budget && (
               <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4">
