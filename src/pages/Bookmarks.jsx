@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import destinations from "../data/destinations";
 import SafeImage from "../components/SafeImage";
+import BookmarkButton from "../components/BookmarkButton";
 
 const vibeEmoji = {
   beach: "🏖️", adventure: "🏔️", romance: "💑", culture: "🏛️",
@@ -47,11 +48,17 @@ export default function Bookmarks({ bookmarks, isBookmarked, onToggleBookmark, g
                   </div>
                 </Link>
                 <div className="p-4 flex flex-col flex-1">
-                  <Link to={`/destination/${dest.id}`} className="no-underline mb-2">
-                    <h3 className="text-base font-bold text-gray-900 dark:text-white hover:text-primary transition-colors">
-                      {dest.name}
-                    </h3>
-                  </Link>
+                  <div className="flex items-start justify-between mb-2">
+                    <Link to={`/destination/${dest.id}`} className="no-underline flex-1 min-w-0 mr-2">
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white hover:text-primary transition-colors">
+                        {dest.name}
+                      </h3>
+                    </Link>
+                    <BookmarkButton
+                      isBookmarked={isBookmarked(dest.id)}
+                      onClick={() => onToggleBookmark(dest.id)}
+                    />
+                  </div>
 
                   {dest.vibes && dest.vibes.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-2">
