@@ -133,9 +133,17 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
                 const found = destinations.find((d) => d && d.id === id);
                 if (!found) return null;
                 return (
-                  <Link key={found.id} to={"/destination/" + found.id} className="flex-shrink-0 w-32 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all no-underline p-2">
-                    <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{found.name || ""}</p>
-                    <p className="text-[10px] text-gray-400 truncate">{found.region || ""}</p>
+                  <Link key={found.id} to={"/destination/" + found.id} className="flex-shrink-0 w-44 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all no-underline">
+                    <div className="h-20 overflow-hidden">
+                      <SafeImage src={found.image} alt={found.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                    </div>
+                    <div className="p-2.5">
+                      <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{found.name || ""}</p>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className="text-[10px] text-gray-400">{found.region || ""}</span>
+                        <span className="text-[10px] font-bold text-accent">★ {found.rating || ""}</span>
+                      </div>
+                    </div>
                   </Link>
                 );
               } catch { return null; }
