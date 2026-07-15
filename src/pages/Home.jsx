@@ -120,6 +120,30 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
       })()}
 
       {/* Stats */}
+      {/* RV_START */}
+      {Array.isArray(recentIds) && recentIds.length > 0 && (
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">🕐 Recently Viewed</h2>
+          </div>
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+            {recentIds.map((id) => {
+              try {
+                if (id == null) return null;
+                const found = destinations.find((d) => d && d.id === id);
+                if (!found) return null;
+                return (
+                  <Link key={found.id} to={"/destination/" + found.id} className="flex-shrink-0 w-32 group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all no-underline p-2">
+                    <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{found.name || ""}</p>
+                    <p className="text-[10px] text-gray-400 truncate">{found.region || ""}</p>
+                  </Link>
+                );
+              } catch { return null; }
+            })}
+          </div>
+        </div>
+      )}
+      {/* RV_END */}
       <div className="flex flex-wrap gap-2 mb-4">
         {[["all","All"],["beach","🏖️ Beach"],["adventure","🏔️ Adventure"],["culture","🏛️ Culture"],["foodie","🍜 Foodie"],["nightlife","🌙 Nightlife"],["nature","🌿 Nature"],["luxury","💎 Luxury"],["backpacker","🎒 Budget"],["romance","💑 Romance"],["family","👨‍👩‍👧‍👦 Family"]].map(([key, label]) => (
           <button key={key} onClick={() => setActiveVibe(key === "all" ? null : key)}
