@@ -293,14 +293,14 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {sorted.filter(Boolean).map((dest, idx) => (
             <DestinationCard
-              key={dest.id}
+              key={dest?.id || idx}
               destination={dest}
-              style={{ animationDelay: `${idx * 0.04}s` }}
+              style={{ animationDelay: `${idx * 0.04}s` } }
               className="card-enter"
-              isBookmarked={isBookmarked(dest.id)}
+              isBookmarked={isBookmarked(dest?.id)}
               onToggleBookmark={onToggleBookmark}
               compareMode={compareMode}
-              selectedForCompare={compareIds.includes(dest.id)}
+              selectedForCompare={compareIds.includes(dest?.id)}
               onToggleCompare={toggleCompare}
               departureAirport={departureAirport}
               onAddToItinerary={onAddToItinerary}
