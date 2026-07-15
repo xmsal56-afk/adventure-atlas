@@ -33,8 +33,8 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
   }, []);
 
   const pickRandom = () => {
-    const random = destinations[Math.floor(Math.random() * destinations.length)];
-    navigate(`/destination/${random.id}`);
+    const rand = destinations[Math.floor(Math.random() * destinations.length)];
+    if (rand) navigate(`/destination/${rand.id}`);
   };
 
   const vibeFiltered = activeVibe
