@@ -1,5 +1,32 @@
 import { useState, useMemo, useEffect } from "react";
-import { parseBestTimeRanges } from "../utils/bestTime";
+
+// Inline bestTime functions to avoid separate chunk loading issues
+const monthNames = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+const monthAbbr = { jan:0, feb:1, mar:2, apr:3, may:4, jun:5, jul:6, aug:7, sep:8, oct:9, nov:10, dec:11 };
+
+function parseMonth(text) {
+  const t = (text||"").trim().toLowerCase().replace(/[()]/g, "");
+  const idx = monthNames.indexOf(t);
+  if (idx !== -1) return idx;
+  const short = t.slice(0, 3);
+  if (monthAbbr[short] !== undefined) return monthAbbr[short];
+  return -1;
+}
+
+function parseBestTimeRanges(bestTime) {
+  if (!bestTime) return [];
+  const segments = (bestTime||"").split(/[,&]/).map((s) => s.trim()).filter(Boolean);
+  const ranges = [];
+  for (const seg of segments) {
+    const match = seg.match(/([a-zA-Z]+)\s*(?:to|–|-)\s*([a-zA-Z]+)/);
+    if (match) {
+      const start = parseMonth(match[1]);
+      const end = parseMonth(match[2]);
+      if (start !== -1 && end !== -1) ranges.push({ start, end });
+    }
+  }
+  return ranges;
+}
 
 const regions = [
   "All", "Europe", "Asia", "North America", "South America",
