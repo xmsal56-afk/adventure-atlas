@@ -121,10 +121,10 @@ export default function SearchBar({ destinations, onFilter }) {
           className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-base transition-all" />
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex gap-2 overflow-x-auto pb-1 flex-nowrap sm:flex-wrap sm:overflow-visible">
         {regions.map((r) => (
           <button key={r} onClick={() => setRegion(r)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
+            className={`flex-shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer ${
               region === r
                 ? "bg-primary text-white shadow-md"
                 : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
@@ -134,10 +134,10 @@ export default function SearchBar({ destinations, onFilter }) {
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex gap-2 overflow-x-auto pb-1 flex-nowrap sm:flex-wrap sm:overflow-visible">
         {budgetTiers.map((t) => (
           <button key={t.key} onClick={() => setBudgetTier(t.key)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
+            className={`flex-shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer ${
               budgetTier === t.key
                 ? "bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 shadow-md"
                 : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
@@ -147,10 +147,10 @@ export default function SearchBar({ destinations, onFilter }) {
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex gap-2 overflow-x-auto pb-1 flex-nowrap sm:flex-wrap sm:overflow-visible">
         {vibeList.map((v) => (
           <button key={v.key} onClick={() => setVibe(v.key)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
+            className={`flex-shrink-0 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer ${
               vibe === v.key
                 ? "bg-pink-600 text-white shadow-md"
                 : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
@@ -160,7 +160,7 @@ export default function SearchBar({ destinations, onFilter }) {
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex gap-1.5 overflow-x-auto pb-1 flex-nowrap sm:flex-wrap sm:overflow-visible">
         {months.map((m, i) => (
           <button key={m} onClick={() => setMonth(i - 1)}
             className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer ${

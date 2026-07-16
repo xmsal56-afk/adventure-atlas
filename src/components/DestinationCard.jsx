@@ -31,7 +31,7 @@ export default function DestinationCard({
     } ${className}`} style={style}>
       <div className="relative">
         <Link to={`/destination/${id}`} className="no-underline block">
-          <div className="relative h-52 overflow-hidden">
+          <div className="relative h-40 sm:h-52 overflow-hidden">
             <SafeImage
               src={image}
               alt={name}
@@ -86,9 +86,9 @@ export default function DestinationCard({
         )}
       </div>
 
-      <div className="p-5 flex flex-col flex-1">
+      <div className="p-3 sm:p-5 flex flex-col flex-1">
         <Link to={`/destination/${id}`} className="no-underline">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1 group-hover:text-primary transition-colors">
+          <h3 className="text-sm sm:text-lg font-bold text-gray-900 dark:text-white mb-1 group-hover:text-primary transition-colors">
             {name}
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">{shortDescription}</p>
