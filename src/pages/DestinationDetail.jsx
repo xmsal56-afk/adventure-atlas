@@ -80,22 +80,22 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Link to="/" className="inline-flex items-center gap-1 text-gray-500 hover:text-primary mb-6 no-underline">← Back</Link>
+      <Link to="/" className="inline-flex items-center gap-1 text-gray-500 hover:text-primary mb-4 sm:mb-6 no-underline text-sm sm:text-base">← Back</Link>
       <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700">
-        <div className="relative h-64 sm:h-80 md:h-96">
+        <div className="relative h-48 sm:h-64 md:h-80">
           <SafeImage src={image} alt={name} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-          <div className="absolute bottom-6 left-6 right-6 flex items-start justify-between">
+          <div className="absolute bottom-4 left-4 right-4 flex items-start justify-between">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-gray-700">{region}</span>
-                <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-gray-700">{country}</span>
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <span className="bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full text-[10px] font-semibold text-gray-700">{region}</span>
+                <span className="bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full text-[10px] font-semibold text-gray-700">{country}</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white">{name}</h1>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">{name}</h1>
             </div>
           </div>
         </div>
-        <div className="p-6 sm:p-8">
+        <div className="p-4 sm:p-8">
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <div className="flex items-center gap-2">
               <span className="text-accent text-xl">★</span>
@@ -123,7 +123,7 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
 
           <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed mb-8">{description}</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-8">
             <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4">
               <span className="text-sm text-gray-400 block">Best Time</span>
               <span className="font-semibold text-gray-800 dark:text-gray-200">{bestTime}</span>
@@ -226,7 +226,7 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
           {localPhrases && localPhrases.length > 0 && (
             <div className="mb-8 bg-rose-50 dark:bg-rose-900/20 rounded-2xl p-5 border border-rose-200 dark:border-rose-700/50">
               <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-3">💬 Useful Phrases</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {localPhrases.map((p) => (
                   <div key={p} className="bg-white dark:bg-gray-800 rounded-xl px-3 py-2 text-center shadow-sm">
                     <p className="text-xs text-gray-400">{p}</p>
@@ -265,7 +265,7 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
             <div className="mb-8">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{related.length ? "More in " + region : "You Might Also Like"}</h2>
               <p className="text-sm text-gray-400 mb-4">{related.length ? "Other destinations in " + region + " worth exploring" : "Handpicked destinations you might enjoy"}</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                 {allRelated.map((dest) => (
                   <Link key={dest.id} to={"/destination/" + dest.id} className="group block bg-white dark:bg-gray-700 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-600 shadow-sm hover:shadow-md transition-all no-underline">
                     <div className="h-32 overflow-hidden">

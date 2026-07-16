@@ -51,9 +51,9 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
 
   return (
     <div>
-      <div className="text-center mb-8">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white mb-3">Explore the World 🌍</h1>
-        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-5">Discover amazing destinations, plan your next adventure, and save your favorites.</p>
+      <div className="text-center mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-2">Explore the World 🌍</h1>
+        <p className="text-sm sm:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-4 sm:mb-5">Discover amazing destinations, plan your next adventure, and save your favorites.</p>
         <button onClick={pickRandom} className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-dark cursor-pointer border-0">🎲 Surprise Me</button>
       </div>
 
