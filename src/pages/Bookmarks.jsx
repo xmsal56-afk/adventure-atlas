@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import destinations from "../data/destinations";
 import SafeImage from "../components/SafeImage";
 import BookmarkButton from "../components/BookmarkButton";
+import { useEffect } from "react";
 
 const vibeEmoji = {
   beach: "🏖️", adventure: "🏔️", romance: "💑", culture: "🏛️",
@@ -10,6 +11,9 @@ const vibeEmoji = {
 };
 
 export default function Bookmarks({ bookmarks, isBookmarked, onToggleBookmark, getNote, updateNote }) {
+  useEffect(() => {
+    document.title = "Your Saved Destinations — Adventure Atlas";
+  }, []);
   const bookmarkedDestinations = destinations.filter((d) => bookmarks.includes(d.id));
 
   const handleNoteChange = (id, text) => {

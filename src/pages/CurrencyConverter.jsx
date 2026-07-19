@@ -20,6 +20,7 @@ const currencies = [
 ];
 
 export default function CurrencyConverter() {
+  useEffect(() => { document.title = "Currency Converter — Adventure Atlas"; }, []);
   const [amount, setAmount] = useState(100);
   const [from, setFrom] = useState("USD");
   const [to, setTo] = useState("EUR");

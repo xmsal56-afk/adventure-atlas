@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import destinations from "../data/destinations";
 import SearchBar from "../components/SearchBar";
@@ -6,7 +7,9 @@ import DestinationCard from "../components/DestinationCard";
 import SafeImage from "../components/SafeImage";
 import { isInBestTime } from "../utils/bestTime";
 import CompareView from "../components/CompareView";
-import MapView from "../components/MapView";
+const MapView = React.lazy(() =>
+  import("../components/MapView").then((m) => ({ default: m.default }))
+);
 
 export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recentIds, departureAirport = "NYC", onAddToItinerary }) {
   const [filtered, setFiltered] = useState(destinations);
@@ -16,6 +19,12 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
   const [compareMode, setCompareMode] = useState(false);
   const [compareIds, setCompareIds] = useState([]);
   const [viewMode, setViewMode] = useState("grid");
+
+  useEffect(() => {
+    document.title = "Adventure Atlas — Explore 150 Destinations Worldwide";
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", "Discover, compare, and plan your next adventure across 150 destinations worldwide. Travel guides, tips, and inspiration.");
+  }, []);
 
   const handleFilter = useCallback((list) => setFiltered(list), []);
 
@@ -241,7 +250,13 @@ export default function Home({ bookmarks, isBookmarked, onToggleBookmark, recent
         </div>
       ) : (
         <div className="mb-8">
-          <MapView destinations={sorted.filter(Boolean)} />
+          <React.Suspense fallback={
+            <div className="w-full h-[400px] sm:h-[500px] rounded-2xl bg-gray-100 dark:bg-gray-800 animate-pulse flex items-center justify-center">
+              <span className="text-gray-400 text-sm">Loading map...</span>
+            </div>
+          }>
+            <MapView destinations={sorted.filter(Boolean)} />
+          </React.Suspense>
         </div>
       )}
 

@@ -9,6 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import AuthModal from "./components/AuthModal";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { SkeletonGrid } from "./components/SkeletonCard";
+import ToastContainer, { addToast } from "./components/Toast";
 import Home from "./pages/Home";
 
 const Bookmarks = lazy(() => import("./pages/Bookmarks"));
@@ -50,6 +51,17 @@ export default function App() {
 
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
+  const handleToggleBookmark = (id) => {
+    toggleBookmark(id);
+    const nowBookmarked = !isBookmarked(id);
+    addToast(nowBookmarked ? "❤️ Bookmarked!" : "Bookmark removed");
+  };
+
+  const handleAddToItinerary = (id) => {
+    addStop(id);
+    addToast("📋 Added to itinerary");
+  };
+
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -73,10 +85,10 @@ export default function App() {
                 <Home
                   bookmarks={bookmarks}
                   isBookmarked={isBookmarked}
-                  onToggleBookmark={toggleBookmark}
+                  onToggleBookmark={handleToggleBookmark}
                   recentIds={recentIds}
                   departureAirport={departureAirport}
-                  onAddToItinerary={addStop}
+                  onAddToItinerary={handleAddToItinerary}
                 />
               }
             />
@@ -86,7 +98,7 @@ export default function App() {
                 <Bookmarks
                   bookmarks={bookmarks}
                   isBookmarked={isBookmarked}
-                  onToggleBookmark={toggleBookmark}
+                  onToggleBookmark={handleToggleBookmark}
                   getNote={getNote}
                   updateNote={updateNote}
                 />
@@ -97,12 +109,12 @@ export default function App() {
               element={
                 <DestinationDetail
                   isBookmarked={isBookmarked}
-                  onToggleBookmark={toggleBookmark}
+                  onToggleBookmark={handleToggleBookmark}
                   getNote={getNote}
                   updateNote={updateNote}
                   addRecent={addRecent}
                   departureAirport={departureAirport}
-                  onAddToItinerary={addStop}
+                  onAddToItinerary={handleAddToItinerary}
                 />
               }
             />
@@ -141,6 +153,7 @@ export default function App() {
           </Suspense>
         </main>
         <AuthModal />
+        <ToastContainer />
         {/* Mobile Bottom Nav */}
         <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-lg md:hidden" style={{paddingBottom:"env(safe-area-inset-bottom,0px)"}}>
           <div className="flex items-center justify-around h-14">

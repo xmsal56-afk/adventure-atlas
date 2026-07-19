@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import destinations from "../data/destinations";
 import SafeImage from "../components/SafeImage";
 
 export default function SharedTrip() {
+  useEffect(() => { document.title = "Shared Trip — Adventure Atlas"; }, []);
   const { data } = useParams();
 
   let stops = [];

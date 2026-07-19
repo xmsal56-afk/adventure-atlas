@@ -6,6 +6,7 @@ import SafeImage from "../components/SafeImage";
 const GOAL_KEY = "travel-budget-goal";
 
 export default function Itinerary({ stops, addStop, removeStop, updateDays, moveStop, clearItinerary, totalDays }) {
+  useEffect(() => { document.title = "Trip Itinerary — Adventure Atlas"; }, []);
   const [showAdd, setShowAdd] = useState(false);
   const [search, setSearch] = useState("");
   const [budgetGoal, setBudgetGoal] = useState(() => {

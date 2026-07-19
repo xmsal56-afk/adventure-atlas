@@ -42,6 +42,16 @@ export default function DestinationDetail({ isBookmarked, onToggleBookmark, getN
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [id]);
 
+  // SEO: set page title and meta description per destination
+  useEffect(() => {
+    if (!destination) return;
+    document.title = `${destination.name} — Adventure Atlas`;
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content",
+      `Explore ${destination.name}, ${destination.country}. ${destination.shortDescription || destination.description?.slice(0, 120)}`
+    );
+  }, [destination]);
+
   const handleNoteSave = () => {
     if (updateNote && destination) updateNote(destination.id, noteText);
   };

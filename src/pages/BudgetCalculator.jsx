@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import destinations from "../data/destinations";
 
 export default function BudgetCalculator() {
+  useEffect(() => { document.title = "Budget Calculator — Adventure Atlas"; }, []);
   const [budget, setBudget] = useState(2000);
   const [days, setDays] = useState(7);
   const [region, setRegion] = useState("all");
